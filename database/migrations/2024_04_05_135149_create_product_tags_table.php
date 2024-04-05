@@ -16,8 +16,9 @@ return new class extends Migration
         Schema::create('product_tags', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignIdFor(Tag::class)->constrained();
+            $table->string('tag');
             $table->foreignIdFor(Product::class)->constrained();
+            $table->timestamp('deleted_at');
             $table->timestamps();
         });
     }

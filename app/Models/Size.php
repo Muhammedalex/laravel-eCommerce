@@ -13,6 +13,6 @@ class Size extends Model
     ];
     public function product_sizes()
     {
-        return $this->hasMany(ProductSize::class);
+        return $this->hasMany(ProductSize::class, 'size');
     }
 }

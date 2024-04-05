@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('photo');
             $table->foreignIdFor(Product::class)->constrained();
+            $table->timestamp('deleted_at');
 
             $table->timestamps();
         });
