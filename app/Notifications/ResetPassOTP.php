@@ -8,8 +8,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class SendOTP extends Notification
+class ResetPassOTP extends Notification
 {
+    use Queueable;
     public $message;
     public $subject;
     public $fromEmail;
@@ -21,8 +22,8 @@ class SendOTP extends Notification
      */
     public function __construct()
     {
-        $this->message = 'Use This Code to Confirm your Account';
-        $this->subject = 'Verification Needed';
+        $this->message = 'Use This Code for resetting your password';
+        $this->subject = 'RESET PASSWORD';
         $this->fromEmail = "m.ayman1924@gmail.com";
         $this->mailer = "smtp";
         $this->otp = new Otp;
@@ -43,11 +44,12 @@ class SendOTP extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $otp = $this->otp->generate($notifiable->email,'numeric',6,1);
+        $otp = $this->otp->generate($notifiable->email,'numeric',6,15);
+
         return (new MailMessage)
         ->mailer('smtp')
         ->subject($this->subject)
-        ->greeting('Hello' .$notifiable->first_name)
+        ->greeting('Hello ' .$notifiable->first_name)
         ->line($this->message)
         ->line('code : ' . $otp->token);
     }
