@@ -20,7 +20,7 @@ class ProductColorFactory extends Factory
     {
         return [
             'product_id' => Product::all()->random()->id,
-            'color_id' => Color::all()->random()->id,
+            'color' => Color::all()->random()->color,
         ];
     }
 }

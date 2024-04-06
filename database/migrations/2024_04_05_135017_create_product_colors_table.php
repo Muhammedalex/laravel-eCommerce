@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('color');
             $table->foreignIdFor(Product::class)->constrained();
-            $table->timestamp('deleted_at');
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

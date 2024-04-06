@@ -20,7 +20,7 @@ class ProductTagFactory extends Factory
     {
         return [
             'product_id' => Product::all()->random()->id,
-            'tag_id' => Tag::all()->random()->id,
+            'tag' => Tag::all()->random()->tag,
         ];
     }
 }
