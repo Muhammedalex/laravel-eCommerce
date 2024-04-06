@@ -17,7 +17,7 @@ class ColorFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->randomElement(['orange', 'yellow', 'green', 'blue'])
+            'color' => fake()->colorName
         ];
     }
 }

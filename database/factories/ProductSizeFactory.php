@@ -20,7 +20,7 @@ class ProductSizeFactory extends Factory
     {
         return [
             'product_id' => Product::all()->random()->id,
-            'size_id' => Size::all()->random()->id,
+            'size' => Size::all()->random()->size,
         ];
     }
 }
