@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('colors', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('color')->unique();
+            $table->timestamp('deleted_at');
             $table->timestamps();
         });
     }

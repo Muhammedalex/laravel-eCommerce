@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('sizes', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('size')->unique();
+            $table->timestamp('deleted_at');
             $table->timestamps();
         });
     }

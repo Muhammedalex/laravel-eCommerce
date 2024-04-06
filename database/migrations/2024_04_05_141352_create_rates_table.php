@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('comment');
             $table->foreignIdFor(Product::class)->constrained();
             $table->foreignIdFor(User::class)->constrained();
+            $table->timestamp('deleted_at');
             $table->timestamps();
         });
     }

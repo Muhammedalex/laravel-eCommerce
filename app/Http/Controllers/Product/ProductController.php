@@ -41,9 +41,15 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Product $product)
     {
-        //
+        $product = Product::with('category')->with('brand')
+            ->with('product_colors.color')
+            ->with('product_sizes.size')
+            ->with('product_tags.tag')
+            ->with('photos')
+            ->first();
+        return $product;
     }
 
     /**
@@ -65,8 +71,9 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Product $product)
     {
-        //
+
+        return  $product->delete();
     }
 }
