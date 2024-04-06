@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\ConfirmRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use App\Notifications\SendOTP;
+use Carbon\Carbon;
 use Ichtrojan\Otp\Otp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -45,6 +46,7 @@ class RegisterController extends Controller
             return response(['error' => 'This Account Already Verified'] , 404);
         }
         $user->isActive = true;
+        $user->email_verified_at = Carbon::now();
         $user->save();
         return response(['message' => 'Account Have Been Activeted'], 200);
         } catch(\Exception $e){
