@@ -4,7 +4,7 @@ namespace App\Traits;
 
 trait CheckRole
 {
-    protected function checkRole($roles , $userId = null)
+    protected function checkRole($roles)
     {
         $user = auth()->user();
 
@@ -16,8 +16,6 @@ trait CheckRole
     protected function checkRoleAndUser($roles , $userId = null)
     {
         $user = auth()->user();
-        // dd($user);
-
         if (!$user || (!$user->hasAnyRole($roles) && (!$userId || $user->id != $userId))) {
             abort(403, 'Unauthorized You Dont Have Access');
         }

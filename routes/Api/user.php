@@ -7,3 +7,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('/users', UserController::class)->except('update');
     Route::post('users/{user}',[UserController::class , 'update']);
 });
+
+//product 

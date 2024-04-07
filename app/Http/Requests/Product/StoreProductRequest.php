@@ -19,11 +19,12 @@ class StoreProductRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+
     public function rules(): array
     {
         return [
             'title' => 'required|string',
-            'description' => 'required|string',,
+            'description' => 'required|string',
             'short_description' => 'required|string',
             'price' => 'required|integer',
             'quantity' => 'required|integer',
@@ -31,7 +32,7 @@ class StoreProductRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
             'brand_id' => 'required|exists:brands,id',
             'total_rating',
-
+            
         ];
     }
 }

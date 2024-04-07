@@ -43,7 +43,7 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
-
+    
         'userphotos' => [
             'driver' => 'local',
             'root' => storage_path('app/userphotos'),
@@ -51,6 +51,7 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+        
 
         's3' => [
             'driver' => 's3',

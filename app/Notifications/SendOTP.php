@@ -43,7 +43,7 @@ class SendOTP extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $otp = $this->otp->generate($notifiable->email,'numeric',6,1);
+        $otp = $this->otp->generate($notifiable->email,'numeric',6,15);
         return (new MailMessage)
         ->mailer('smtp')
         ->subject($this->subject)

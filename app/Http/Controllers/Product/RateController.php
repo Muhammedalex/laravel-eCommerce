@@ -20,15 +20,14 @@ class RateController extends Controller
 
     public function store(StoreRateRequest $request)
     {
-        $data = $request->validated();
-
-        return Rate::create($data);
+        $valid = $request->validated();
+        $data = Rate::create($valid);
+        return response($data , 201);
     }
 
 
     public function update(UpdateRateRequest $request, Rate $rate)
     {
-
         $data = $request->validated();
         return $rate->update($data);
     }
