@@ -20,6 +20,7 @@ class ColorController extends Controller
     {
         $data = $request->validated();
 
+
         return Color::create($data);
     }
 

@@ -22,7 +22,7 @@ class SizeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'size' => 'required|unique|string'
+            'size' => 'required|string|unique:sizes,size',
         ];
     }
 }

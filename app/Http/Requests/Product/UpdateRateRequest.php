@@ -22,8 +22,8 @@ class UpdateRateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'rate' => 'required|integer',
-            'comment' => 'required|string',
+            'rate' => 'integer',
+            'comment' => 'string',
         ];
     }
 }

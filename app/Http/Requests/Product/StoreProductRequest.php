@@ -31,6 +31,7 @@ class StoreProductRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
             'brand_id' => 'required|exists:brands,id',
             'total_rating',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
 
         ];
     }

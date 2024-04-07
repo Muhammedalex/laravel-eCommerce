@@ -27,13 +27,12 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $data = $request->validated();
+
         $product = Product::create($data);
         return $product;
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Product $product)
     {
         $product = Product::with('category')->with('brand')
@@ -53,9 +52,7 @@ class ProductController extends Controller
         return $product;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(Product $product)
     {
 

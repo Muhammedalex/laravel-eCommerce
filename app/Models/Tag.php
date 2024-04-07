@@ -10,7 +10,7 @@ class Tag extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = [
-        'title'
+        'tag'
     ];
     public function product_tags()
     {

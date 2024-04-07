@@ -22,7 +22,7 @@ class TagRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tag' => 'required|unique|string'
+            'tag' => 'required|unique:tags,tag|string'
         ];
     }
 }

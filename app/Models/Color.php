@@ -11,7 +11,7 @@ class Color extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'title'
+        'color'
     ];
     public function product_colors()
     {
