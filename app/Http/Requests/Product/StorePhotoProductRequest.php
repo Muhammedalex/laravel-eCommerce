@@ -22,14 +22,17 @@ class StorePhotoProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'photo'=>'required|array',
-            'photo.*' =>[
+            'photo' => 'required|array',
+            'photo.*' => [
                 'required',
                 'image'
             ],
-            // 'colors'=>'requird',
-            // 'colors.*'=>'required',
-            // 'tags.*'=>'required|exist:tags,tag',
+            'color' => 'required',
+            'color.*' => 'required|exists:colors,color',
+            'size' => 'required',
+            'size.*' => 'required|exists:sizes,size',
+            'tag' => 'required',
+            'tag.*' => 'required|exists:tags,tag',
         ];
     }
 }

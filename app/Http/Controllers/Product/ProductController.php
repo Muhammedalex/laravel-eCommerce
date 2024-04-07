@@ -9,6 +9,8 @@ use App\Http\Requests\Product\UpdateProductRequest;
 use App\Models\Product;
 use App\Models\ProductColor;
 use App\Models\ProductPhoto;
+use App\Models\ProductSize;
+use App\Models\ProductTag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -30,35 +32,49 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request, StorePhotoProductRequest $imgRequest)
     {
-        $data = $request->validated();
-        $imgRequest->validated();
-        DB::beginTransaction();
-        $product = Product::create($data);
-        foreach($imgRequest->colors as $color) {
+        try {
+            $data = $request->validated();
+            $imgRequest->validated();
+            DB::beginTransaction();
+            $product = Product::create($data);
+            foreach ($imgRequest->colors as $color) {
                 ProductColor::create([
                     "color" => $color,
                     "product_id" => $product->id
                 ]);
-        }
-        if($request->hasFile('photo')) {
-            foreach($imgRequest->file('photo') as $img) {
-                if($img->isValid()) {
-                    $fileName = uniqid() . '.' . $img->extension();
-                    $photoPath = $img->storeAs('userphotos', $fileName);
-                    ProductPhoto::create([
-                        "photo" => $fileName,
-                        "product_id" => $product->id
-                    ]);
+            }
+
+            foreach ($imgRequest->sizes as $size) {
+                ProductSize::create([
+                    "size" =>  $size,
+                    "product_id" => $product->id
+                ]);
+            }
+            foreach ($imgRequest->tags as $tag) {
+                ProductTag::create([
+                    "tag" =>  $tag,
+                    "product_id" => $product->id
+                ]);
+            }
+            if ($request->hasFile('photo')) {
+                foreach ($imgRequest->file('photo') as $img) {
+                    if ($img->isValid()) {
+                        $fileName = uniqid() . '.' . $img->extension();
+                        $photoPath = $img->storeAs('userphotos', $fileName);
+                        ProductPhoto::create([
+                            "photo" => $fileName,
+                            "product_id" => $product->id
+                        ]);
+                    }
                 }
             }
+            $newProduct = Product::with('photos')->find($product->id);
+            DB::commit();
+            return $newProduct;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response(['success' => false], 401);
         }
-        $newProduct = Product::with('photos')->find($product->id);
-        DB::commit();
-        return $newProduct;
-       } catch(\Exception $e){
-        DB::rollBack();
-        return response(['success'=>false],401);
-       }
     }
 
     /**

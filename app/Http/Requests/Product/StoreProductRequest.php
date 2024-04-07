@@ -31,7 +31,7 @@ class StoreProductRequest extends FormRequest
             'slug' => 'required|string',
             'category_id' => 'required|exists:categories,id',
             'brand_id' => 'required|exists:brands,id',
-            'total_rating',
+
 
         ];
     }
