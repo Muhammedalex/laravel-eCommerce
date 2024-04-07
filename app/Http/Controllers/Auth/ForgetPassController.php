@@ -25,13 +25,14 @@ class ForgetPassController extends Controller
         $input = $request->only('email');
         $user = User::where('email',$input)->first();
         $user->notify(new ResetPassOTP());
-        $success['success']=true;
-        return response($success,200);
+        // $success['success']=true;
+        return response(["success"=>true],200);
     }
 
     public function resetPass(ResetPassRequest $request)
     {
         $otpe = $this->otp->validate($request->email , $request->otp);
+        dd($otpe);
         if(!$otpe->status){
             return response(['error'=>$otpe],401);
         }
