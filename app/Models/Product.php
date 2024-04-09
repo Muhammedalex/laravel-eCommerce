@@ -19,9 +19,6 @@ class Product extends Model
         'description',
         'category_id',
         'brand_id',
-        'total_rating'
-
-
     ];
     public function category()
     {
