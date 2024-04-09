@@ -10,7 +10,7 @@ class ProductTag extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = [
-        'tag_id',
+        'tag',
         'product_id'
     ];
     public function product()
@@ -19,6 +19,6 @@ class ProductTag extends Model
     }
     public function tag()
     {
-        return $this->belongsTo(Tag::class, 'tag');
+        return $this->belongsTo(Tag::class, 'tag','tag');
     }
 }

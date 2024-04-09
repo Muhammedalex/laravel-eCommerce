@@ -11,7 +11,7 @@ class ProductSize extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'size_id',
+        'size',
         'product_id',
     ];
     public function product()
@@ -20,6 +20,6 @@ class ProductSize extends Model
     }
     public function size()
     {
-        return $this->belongsTo(Size::class, 'size');
+        return $this->belongsTo(Size::class, 'size','size');
     }
 }
