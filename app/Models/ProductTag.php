@@ -19,6 +19,6 @@ class ProductTag extends Model
     }
     public function tag()
     {
-        return $this->belongsTo(Tag::class, 'tag','tag');
+        return $this->belongsTo(Tag::class, 'tag');
     }
 }

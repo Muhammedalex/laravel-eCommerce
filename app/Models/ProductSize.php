@@ -20,6 +20,6 @@ class ProductSize extends Model
     }
     public function size()
     {
-        return $this->belongsTo(Size::class, 'size','size');
+        return $this->belongsTo(Size::class, 'size');
     }
 }

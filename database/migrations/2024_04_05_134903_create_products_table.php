@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('slug');
             $table->foreignIdFor(Category::class)->constrained();
             $table->foreignIdFor(Brand::class)->constrained();
-            $table->integer('total_rating')->nullable();
+            $table->float('total_rating')->nullable();
             $table->timestamp('deleted_at')->nullable();
 
             $table->timestamps();

@@ -38,20 +38,20 @@ class ProductController extends Controller
             // dd($request);
             DB::beginTransaction();
             $product = Product::create($data);
-            foreach ($imgRequest->colors as $color) {
+            foreach ($imgRequest->color as $color) {
                 ProductColor::create([
                     "color" => $color,
                     "product_id" => $product->id
                 ]);
             }
 
-            foreach ($imgRequest->sizes as $size) {
+            foreach ($imgRequest->size as $size) {
                 ProductSize::create([
                     "size" =>  $size,
                     "product_id" => $product->id
                 ]);
             }
-            foreach ($imgRequest->tags as $tag) {
+            foreach ($imgRequest->tag as $tag) {
                 ProductTag::create([
                     "tag" =>  $tag,
                     "product_id" => $product->id
@@ -78,9 +78,7 @@ class ProductController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Product $product)
     {
         $product = Product::with('category')->with('brand')
