@@ -47,19 +47,4 @@ class RateController extends Controller
     {
         return $rate->delete();
     }
-
-    public function rate()
-    {
-        $products = Product::with('rates')->get();
-        // return $products;
-
-        foreach ($products as $product) {
-            $rateCount = $product->rates->count();
-            // return $rateCount;
-            $averageRate = $rateCount > 0 ? $product->rates->avg('rate') : 0;
-
-
-            $product->update(['total_rating' => $averageRate]);
-        }
-    }
 }
