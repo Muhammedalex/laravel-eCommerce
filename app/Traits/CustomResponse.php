@@ -20,7 +20,7 @@ trait CreateResponse
         // Instead, do this in the create_response method where the locale is more reliably set.
     }
 
-    function create_response(bool $success, string $message = '', $data = "", $status = 200)
+    function create_response(bool $success = true, string $message = '', $data = "", $status = 200)
     {
         $statusMessage = $this->jsonResponses[$status] ?? 'Something went wrong, please reload the page and try again';
 
@@ -29,6 +29,22 @@ trait CreateResponse
                 'success' => $success,
                 'message' => $message,
                 'data' => $data,
+                'status' => $status,
+                'status_message' => $statusMessage,
+            ],
+            $status
+        );
+    }
+
+    function error_response(bool $success, string $message = '', $error = "", $status = 200)
+    {
+        $statusMessage = $this->jsonResponses[$status] ?? 'Something went wrong, please reload the page and try again';
+
+        return response()->json(
+            [
+                'success' => $success,
+                'message' => $message,
+                'error' => $error,
                 'status' => $status,
                 'status_message' => $statusMessage,
             ],
