@@ -28,6 +28,10 @@ class Product extends Model
     {
         return $this->belongsTo(Brand::class);
     }
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
     public function product_colors()
     {
         return $this->hasMany(ProductColor::class);

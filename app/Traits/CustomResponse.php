@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-trait CreateResponse
+trait CustomResponse
 {
     protected $jsonResponses = [
         100 => "Continue",
@@ -14,19 +14,13 @@ trait CreateResponse
         404 => "Not Found",
     ];
 
-    public function __construct()
-    {
-        // The constructor is not the best place to set translations based on locale.
-        // Instead, do this in the create_response method where the locale is more reliably set.
-    }
-
-    function create_response(bool $success = true, string $message = '', $data = "", $status = 200)
+    function create_response(string $message = '', $data = "", $status = 200)
     {
         $statusMessage = $this->jsonResponses[$status] ?? 'Something went wrong, please reload the page and try again';
 
         return response()->json(
             [
-                'success' => $success,
+                'success' => true,
                 'message' => $message,
                 'data' => $data,
                 'status' => $status,
@@ -36,13 +30,13 @@ trait CreateResponse
         );
     }
 
-    function error_response(bool $success, string $message = '', $error = "", $status = 200)
+    function error_response(string $message = '', $error = "", $status = 200)
     {
         $statusMessage = $this->jsonResponses[$status] ?? 'Something went wrong, please reload the page and try again';
 
         return response()->json(
             [
-                'success' => $success,
+                'success' => false,
                 'message' => $message,
                 'error' => $error,
                 'status' => $status,
