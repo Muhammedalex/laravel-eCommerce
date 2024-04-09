@@ -22,19 +22,6 @@ class RateController extends Controller
 
     public function store(StoreRateRequest $request)
     {
-        $valid = $request->validated();
-        Rate::create($valid);
-        $products = Product::with('rates')->get();
-        // return $products;
-
-        foreach ($products as $product) {
-            $rateCount = $product->rates->count();
-            // return $rateCount;
-            $averageRate = $rateCount > 0 ? $product->rates->avg('rate') : 0;
-
-
-            $product->update(['total_rating' => $averageRate]);
-        }
     }
 
     public function update(UpdateRateRequest $request, Rate $rate)
