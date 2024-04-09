@@ -6,34 +6,66 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\ColorRequest;
 use App\Models\Color;
 use Illuminate\Http\Request;
+use App\Traits\CheckRole;
+use App\Traits\CustomResponse;
 
 class ColorController extends Controller
 {
+    use CustomResponse, CheckRole;
     public function index()
     {
-        $colors = Color::all();
-        return $colors;
+        $this->checkRole(['admin']);
+        try {
+
+            $data = Color::all();
+
+            return $this->create_response('All colors', $data, 201);
+        } catch (\Exception $e) {
+
+            return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
+        }
     }
 
 
     public function store(ColorRequest $request)
     {
-        $data = $request->validated();
+        try {
+            $valid = $request->validated();
 
+            $data = Color::create($valid);
 
-        return Color::create($data);
+            return $this->create_response('Added color', $data, 201);
+        } catch (\Exception $e) {
+
+            return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
+        }
     }
 
 
     public function update(ColorRequest $request, Color $color)
     {
 
-        $data = $request->validated();
-        return $color->update($data);
+        try {
+            $valid = $request->validated();
+
+            $data = $color->update($valid);
+
+            return $this->create_response('Updated color', $data, 201);
+        } catch (\Exception $e) {
+
+            return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
+        }
     }
 
     public function destroy(Color $color)
     {
-        return $color->delete();
+        try {
+            $data =  $color->delete();
+
+            return $this->create_response('deleted color', $data, 201);
+        } catch (\Exception $e) {
+
+            return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
+        }
     }
 }

@@ -13,25 +13,37 @@ use App\Models\ProductSize;
 use App\Models\ProductTag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Traits\CheckRole;
+use App\Traits\CustomResponse;
 
 class ProductController extends Controller
 {
+    use CustomResponse, CheckRole;
 
     public function index()
     {
-        $products = Product::with('category')->with('brand')
-            ->with('product_colors.color')
-            ->with('product_sizes.size')
-            ->with('product_tags.tag')
-            ->with('photos')
-            ->paginate(10);
-        return $products;
+
+        try {
+
+            $products = Product::with('category')->with('brand')
+                ->with('product_colors.color')
+                ->with('product_sizes.size')
+                ->with('product_tags.tag')
+                ->with('photos')
+                ->paginate(10);
+            $data = $products;
+            return $this->create_response('all products', $data, 201);
+        } catch (\Exception $e) {
+
+            return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
+        }
     }
 
 
 
     public function store(StoreProductRequest $request, StorePhotoProductRequest $imgRequest)
     {
+        $this->checkRole(['admin']);
         try {
             $data = $request->validated();
             $imgRequest->validated();
@@ -69,7 +81,7 @@ class ProductController extends Controller
                     }
                 }
             }
-            $newProduct = Product::with('photos','product_colors.color','product_sizes','product_tags')->find($product->id);
+            $newProduct = Product::with('photos', 'product_colors.color', 'product_sizes', 'product_tags')->find($product->id);
             DB::commit();
             return $newProduct;
         } catch (\Exception $e) {
@@ -81,27 +93,49 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        $product = Product::with('category')->with('brand')
-            ->with('product_colors.color')
-            ->with('product_sizes.size')
-            ->with('product_tags.tag')
-            ->with('photos')
-            ->first();
-        return $product;
+
+        try {
+            $data =
+                $product = Product::with('category')->with('brand')
+                ->with('product_colors.color')
+                ->with('product_sizes.size')
+                ->with('product_tags.tag')
+                ->with('photos')
+                ->first();
+            $data = $product;
+            return $this->create_response('single product', $data, 201);
+        } catch (\Exception $e) {
+
+            return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
+        }
     }
 
 
     public function update(UpdateProductRequest $request, Product $product)
     {
-        $data = $request->validated();
-        $product->update($data);
-        return $product;
+        $this->checkRole(['admin']);
+        try {
+            $valid = $request->validated();
+
+            $data = $product->update($valid);
+
+            return $this->create_response('Updated product', $data, 201);
+        } catch (\Exception $e) {
+
+            return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
+        }
     }
 
 
     public function destroy(Product $product)
     {
+        $this->checkRole(['admin']);
+        try {
+            $data = $product->delete();
+            return $this->create_response('Deleted product', $data, 201);
+        } catch (\Exception $e) {
 
-        return  $product->delete();
+            return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
+        }
     }
 }

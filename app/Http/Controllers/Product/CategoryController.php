@@ -7,34 +7,68 @@ use App\Http\Requests\Product\StoreCategoryRequest;
 use App\Http\Requests\Product\UpdateCategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Traits\CheckRole;
+use App\Traits\CustomResponse;
 
 class CategoryController extends Controller
 {
-
+    use CustomResponse, CheckRole;
     public function index()
     {
-        $categories = Category::all();
-        return $categories;
+        $this->checkRole(['admin']);
+        try {
+
+            $data = Category::all();
+
+            return $this->create_response('All categories', $data, 201);
+        } catch (\Exception $e) {
+
+            return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
+        }
     }
+
 
 
     public function store(StoreCategoryRequest $request)
     {
-        $data = $request->validated();
+        $this->checkRole(['admin']);
+        try {
+            $valid = $request->validated();
 
-        return Category::create($data);
+            $data = Category::create($valid);
+            return $this->create_response('Added category', $data, 201);
+        } catch (\Exception $e) {
+
+            return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
+        }
     }
 
 
     public function update(UpdateCategoryRequest $request, Category $category)
     {
 
-        $data = $request->validated();
-        return $category->update($data);
+        try {
+            $valid = $request->validated();
+
+            $data = $category->update($valid);
+            return $this->create_response('Updated category', $data, 201);
+        } catch (\Exception $e) {
+
+            return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
+        }
     }
 
     public function destroy(Category $category)
+
+
     {
-        return $category->delete();
+        $this->checkRole(['admin']);
+        try {
+            $data = $category->delete();
+            return $this->create_response('Deleted category', $data, 201);
+        } catch (\Exception $e) {
+
+            return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
+        }
     }
 }
