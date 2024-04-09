@@ -1,8 +1,12 @@
 <?php
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request as HttpRequest;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,5 +19,44 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->render(function (NotFoundHttpException $e, HttpRequest $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'success' => false,
+                    'error' => $e->getMessage(),
+                    'message' => 'NOT FOUND',
+                    'status' =>404,
+                ], 404);
+            }
+        });
+        $exceptions->render(function (ValidationException $e, HttpRequest $request) {
+            if ($request->is('api/*')) {
+                $errors = [];
+                foreach ($e->errors() as $key => $messages) {
+                    foreach ($messages as $message) {
+                        $errors[] = [
+                            'key' => $key,
+                            'message' => $message,
+                        ];
+                    }
+                }
+                return response()->json([
+                    'success' => false,
+                    'errors' => $e->errors(),
+                    'message' => 'Please Try again',
+                    'status' =>422,
+
+                ], 422);
+            }
+        });
+        $exceptions->render(function (AuthenticationException $e, HttpRequest $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'success' => false,
+                    'error' => $e->getMessage(),
+                    'message' => 'PLEASE LOGIN',
+                    'status' =>401,
+                ], 401);
+            }
+        });
     })->create();
