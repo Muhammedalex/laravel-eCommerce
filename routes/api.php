@@ -17,8 +17,10 @@ require_once __DIR__ . '/Api/user.php';
 route::apiResource('products', ProductController::class);
 route::apiResource('categories', CategoryController::class);
 route::apiResource('brands', BrandController::class);
-route::apiResource('rates', RateController::class);
 route::apiResource('colors', ColorController::class);
 route::apiResource('sizes', SizeController::class);
 route::apiResource('tags', TagController::class);
 route::apiResource('rates', RateController::class);
+Route::middleware(['auth:sanctum'])->group(function () {
+    route::apiResource('rates', RateController::class);
+});

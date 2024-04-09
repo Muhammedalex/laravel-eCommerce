@@ -35,6 +35,7 @@ class ProductController extends Controller
         try {
             $data = $request->validated();
             $imgRequest->validated();
+            // dd($request);
             DB::beginTransaction();
             $product = Product::create($data);
             foreach ($imgRequest->color as $color) {
@@ -68,7 +69,7 @@ class ProductController extends Controller
                     }
                 }
             }
-            $newProduct = Product::with('photos')->find($product->id);
+            $newProduct = Product::with('photos','product_colors.color','product_sizes','product_tags')->find($product->id);
             DB::commit();
             return $newProduct;
         } catch (\Exception $e) {
