@@ -22,3 +22,5 @@ route::apiResource('colors', ColorController::class);
 route::apiResource('sizes', SizeController::class);
 route::apiResource('tags', TagController::class);
 route::apiResource('rates', RateController::class);
+
+route::put('rating', [RateController::class, 'rate']);
