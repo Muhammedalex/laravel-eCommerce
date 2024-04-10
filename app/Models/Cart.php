@@ -19,5 +19,13 @@ class Cart extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function likes()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    public function total_likes($id){
+        return $this->likes->count();
+    }
 
 }

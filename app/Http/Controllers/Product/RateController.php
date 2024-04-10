@@ -85,7 +85,6 @@ class RateController extends Controller
             $data =  $rate->delete();
             return $this->create_response('Deleted rate', $data, 201);
         } catch (\Exception $e) {
-
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
         }
     }

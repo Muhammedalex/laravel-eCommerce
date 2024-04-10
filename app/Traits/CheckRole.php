@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 
+use Illuminate\Auth\Access\AuthorizationException;
+
 trait CheckRole
 {
     protected function checkRole($roles)
@@ -9,7 +11,7 @@ trait CheckRole
         $user = auth()->user();
 
         if (!$user || !$user->hasAnyRole($roles) ) {
-            abort(403, 'Unauthorized You Dont Have Access');
+            throw new AuthorizationException();
         }
     }   
 
@@ -17,7 +19,7 @@ trait CheckRole
     {
         $user = auth()->user();
         if (!$user || (!$user->hasAnyRole($roles) && (!$userId || $user->id != $userId))) {
-            abort(403, 'Unauthorized You Dont Have Access');
+            throw new AuthorizationException();
         }
     }   
 }

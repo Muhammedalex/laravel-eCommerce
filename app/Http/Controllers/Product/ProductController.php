@@ -22,7 +22,6 @@ class ProductController extends Controller
 
     public function index()
     {
-
         try {
 
             $products = Product::with('category')->with('brand')
@@ -32,7 +31,7 @@ class ProductController extends Controller
                 ->with('photos')
                 ->paginate(10);
             $data = $products;
-            return $this->create_response('all products', $data, 201);
+            return $this->create_response('all products', $data, 200);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
@@ -43,13 +42,12 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request, StorePhotoProductRequest $imgRequest)
     {
-        $this->checkRole(['admin']);
+        $this->checkRole(['user']);
         try {
-            $data = $request->validated();
+            $valid = $request->validated();
             $imgRequest->validated();
-            // dd($request);
             DB::beginTransaction();
-            $product = Product::create($data);
+            $product = Product::create($valid);
             foreach ($imgRequest->color as $color) {
                 ProductColor::create([
                     "color" => $color,
@@ -81,29 +79,25 @@ class ProductController extends Controller
                     }
                 }
             }
-            $newProduct = Product::with('photos', 'product_colors.color', 'product_sizes', 'product_tags')->find($product->id);
+            $data = Product::with('photos', 'product_colors.color', 'product_sizes', 'product_tags')->findOrFail($product->id);
             DB::commit();
-            return $newProduct;
+            return $this->create_response('Created Successfully', $data, 201);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response(['success' => false], 401);
+            return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
         }
     }
 
 
     public function show(Product $product)
     {
-
+        $this->checkRole(['admin']);
         try {
             $data =
                 $product = Product::with('category')->with('brand')
-                ->with('product_colors.color')
-                ->with('product_sizes.size')
-                ->with('product_tags.tag')
-                ->with('photos')
-                ->first();
+                ->with('product_colors.color','product_sizes.size','product_tags.tag','photos')->first();
             $data = $product;
-            return $this->create_response('single product', $data, 201);
+            return $this->create_response('single product', $data, 200);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
@@ -119,7 +113,7 @@ class ProductController extends Controller
 
             $data = $product->update($valid);
 
-            return $this->create_response('Updated product', $data, 201);
+            return $this->create_response('Updated product', $data, 202);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
@@ -129,10 +123,10 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        $this->checkRole(['admin']);
+        $this->checkRole(['user']);
         try {
             $data = $product->delete();
-            return $this->create_response('Deleted product', $data, 201);
+            return $this->create_response('Deleted product', $data, 203);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);

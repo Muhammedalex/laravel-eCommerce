@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('rate');
             $table->string('comment');
-            $table->foreignIdFor(Product::class)->constrained();
+            $table->foreignIdFor(Product::class)->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignIdFor(User::class)->constrained();
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();

@@ -26,6 +26,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         route::put('{product}', 'update');
         route::delete('{product}', 'destroy');
     });
+    // route::apiResource('products',ProductController::class);
 });
 
 
