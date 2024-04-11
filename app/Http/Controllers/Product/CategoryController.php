@@ -20,7 +20,7 @@ class CategoryController extends Controller
 
             $data = Category::all();
 
-            return $this->create_response('All categories', $data, 201);
+            return $this->create_response('All categories', $data, 200);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
@@ -46,12 +46,12 @@ class CategoryController extends Controller
 
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-
+        $this->checkRole(['admin']);
         try {
             $valid = $request->validated();
-
-            $data = $category->update($valid);
-            return $this->create_response('Updated category', $data, 201);
+            $category->update($valid);
+            $data = $category;
+            return $this->create_response('Updated category', $data, 202);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
@@ -64,8 +64,9 @@ class CategoryController extends Controller
     {
         $this->checkRole(['admin']);
         try {
-            $data = $category->delete();
-            return $this->create_response('Deleted category', $data, 201);
+            $data = $category;
+            $category->delete();
+            return $this->create_response('Deleted category', $data, 203);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);

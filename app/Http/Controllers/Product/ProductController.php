@@ -91,11 +91,11 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        $this->checkRole(['admin']);
+
         try {
-            $data =
-                $product = Product::with('category')->with('brand')
-                ->with('product_colors.color','product_sizes.size','product_tags.tag','photos')->first();
+
+            $product = Product::with('category')->with('brand')
+                ->with('product_colors.color', 'product_sizes.size', 'product_tags.tag', 'photos')->where('id', $product->id)->first();
             $data = $product;
             return $this->create_response('single product', $data, 200);
         } catch (\Exception $e) {
@@ -111,8 +111,8 @@ class ProductController extends Controller
         try {
             $valid = $request->validated();
 
-            $data = $product->update($valid);
-
+            $product->update($valid);
+            $data = $product;
             return $this->create_response('Updated product', $data, 202);
         } catch (\Exception $e) {
 
@@ -123,9 +123,10 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        $this->checkRole(['user']);
+        $this->checkRole(['admin']);
         try {
-            $data = $product->delete();
+            $data = $product;
+            $product->delete();
             return $this->create_response('Deleted product', $data, 203);
         } catch (\Exception $e) {
 
