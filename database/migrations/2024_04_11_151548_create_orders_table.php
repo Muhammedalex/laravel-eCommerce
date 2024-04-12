@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('payment');
             $table->string('status')->default('pending');
             $table->float('total_price')->nullable();
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }
