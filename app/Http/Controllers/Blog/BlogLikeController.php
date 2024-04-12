@@ -8,48 +8,30 @@ use App\Models\Blog;
 use App\Models\BlogLike;
 use App\Traits\CheckRole;
 use App\Traits\CustomResponse;
+use Illuminate\Support\Facades\Auth;
 
 class BlogLikeController extends Controller
 {
     use CustomResponse, CheckRole;
 
-    // public function like(Request $request, Blog $blog)
-    // {
-    //     $user_id = auth()->id();
-
-
-    //     $existing_like = BlogLike::where('user_id', $user_id)
-    //     ->where('blog_id', $blog->id)->first();
-
-    //     if ($existing_like) {
-    //         $existing_like->delete();
-    //     } else {
-    //         BlogLike::create([
-    //             'user_id' => $user_id,
-    //             'blog_id' => $blog->id
-    //         ]);
-    //     }
-
-
-    public function like(Request $request, Blog $blog)
+    public function like(Blog $blog)
     {
-        $user_id = $request->user_id;
+        $this->checkRole(['user']);
+        $user = Auth::user();
+        // dd();
+        $userExsisting = $blog->blog_likes->where('user_id',$user->id)->first();
+        if($userExsisting){
+            $userExsisting->delete();
+            return $this->create_response('user dislike', $userExsisting, 203);
 
-        $blog_id = $request->blog_id;
-        // $user_id = auth()->id();
-
-        // Check for existing like and toggle it
-        $existing_like = BlogLike::where('user_id', $user_id)
-            ->where('blog_id', $blog_id)
-            ->first();
-
-        if ($existing_like) {
-            $existing_like->delete();
-        } else {
+        } elseif(!$userExsisting){
             BlogLike::create([
-                'user_id' => $user_id,
-                'blog_id' => $blog_id
+                'user_id'=>$user->id,
+                'blog_id'=>$blog->id
             ]);
+            $data = $blog;
+            return $this->create_response('Added like', $data, 201);
+
         }
     }
 }

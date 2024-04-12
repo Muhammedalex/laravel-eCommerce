@@ -46,7 +46,6 @@ class BlogController extends Controller
 
             return $this->create_response('single blog', $data, 200);
         } catch (\Exception $e) {
-
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
         }
     }
@@ -91,16 +90,16 @@ class BlogController extends Controller
         try {
             $valid = $request->validated();
             if ($request->hasFile('photo')) {
-
                 $blog->photo ? Storage::disk('userphotos')->delete($blog->photo) : '';
                 $fileName = uniqid() . '.' . $request->file('photo')->extension();
                 $photoPath = $request->file('photo')->storeAs('userphotos', $fileName);
-                $blog->photo = $fileName;
-                // $blog->save();
-
+                $valid['photo']= $fileName;
             }
-            $data = $blog->update($valid);
-            return $this->create_response('Updated blog', $data, 202);
+            // else{
+                  $blog->update($valid);
+                  $data=$blog;
+                return $this->create_response('Updated blog', $data, 202);
+            // }
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);

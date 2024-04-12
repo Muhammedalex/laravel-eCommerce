@@ -24,8 +24,7 @@ class UpdateBlogRequest extends FormRequest
         return [
             'title' => 'sometimes|string',
             'description' => 'sometimes|string',
-            'views' => 'sometimes|integer',
-            'photo' => 'sometimes|string',
+            'photo' => 'sometimes|image',
             'blog_category' => 'sometimes|exists:blog_categories,blog_category',
 
         ];
