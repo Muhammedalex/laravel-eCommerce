@@ -17,10 +17,10 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId(User::class)->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId(Address::class)->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId(Coupon::class)->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId(Phone::class)->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignIdFor(User::class)->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignIdFor(Address::class)->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignIdFor(Coupon::class)->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignIdFor(Phone::class)->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('payment');
             $table->string('status');
             $table->float('total_price');

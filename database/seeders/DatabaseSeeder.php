@@ -2,12 +2,15 @@
 
 namespace Database\Seeders;
 
+use App\Models\Address;
 use App\Models\Blog;
 use App\Models\BlogCategory;
 use App\Models\BlogLike;
 use App\Models\Brand;
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Color;
+use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\ProductColor;
 use App\Models\ProductPhoto;
@@ -48,5 +51,9 @@ class DatabaseSeeder extends Seeder
         BlogCategory::factory(5)->create();
         Blog::factory(20)->create();
         BlogLike::factory(50)->create();
+        Address::factory(10)->create();
+        Coupon::factory(10)->create();
+        Cart::factory(50)->create();
+
     }
 }
