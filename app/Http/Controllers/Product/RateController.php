@@ -24,7 +24,7 @@ class RateController extends Controller
             $data =  Rate::with('product')->where('user_id', $user->id)->get();
 
 
-            return $this->create_response('All rates', $data, 201);
+            return $this->create_response('All rates', $data, 200);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
@@ -66,8 +66,9 @@ class RateController extends Controller
 
         try {
             $valid = $request->validated();
-            $data = $rate->update($valid);
-            return $this->create_response('Updated rate', $data, 201);
+            $rate->update($valid);
+            $data = $rate;
+            return $this->create_response('Updated rate', $data, 202);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
@@ -82,8 +83,9 @@ class RateController extends Controller
         $this->checkRoleAndUser(['admin'], $rate->user_id);
 
         try {
-            $data =  $rate->delete();
-            return $this->create_response('Deleted rate', $data, 201);
+            $data = $rate;
+            $rate->delete();
+            return $this->create_response('Deleted rate', $data, 203);
         } catch (\Exception $e) {
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
         }

@@ -19,7 +19,7 @@ class ColorController extends Controller
 
             $data = Color::all();
 
-            return $this->create_response('All colors', $data, 201);
+            return $this->create_response('All colors', $data, 200);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
@@ -48,9 +48,9 @@ class ColorController extends Controller
         try {
             $valid = $request->validated();
 
-            $data = $color->update($valid);
-
-            return $this->create_response('Updated color', $data, 201);
+            $color->update($valid);
+            $data = $color;
+            return $this->create_response('Updated color', $data, 202);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
@@ -60,9 +60,10 @@ class ColorController extends Controller
     public function destroy(Color $color)
     {
         try {
-            $data =  $color->delete();
+            $data = $color;
+            $color->delete();
 
-            return $this->create_response('deleted color', $data, 201);
+            return $this->create_response('deleted color', $data, 203);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);

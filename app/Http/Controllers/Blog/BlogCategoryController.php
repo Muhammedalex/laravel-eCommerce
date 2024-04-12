@@ -1,41 +1,42 @@
 <?php
 
-namespace App\Http\Controllers\Product;
+namespace App\Http\Controllers\Blog;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Product\SizeRequest;
-use App\Models\Size;
+use App\Http\Requests\BlogCategoryRequest;
+use App\Models\BlogCategory;
 use Illuminate\Http\Request;
 use App\Traits\CheckRole;
 use App\Traits\CustomResponse;
 
-class SizeController extends Controller
+class BlogCategoryController extends Controller
+
 {
     use CustomResponse, CheckRole;
     public function index()
-
     {
         $this->checkRole(['admin']);
         try {
-            $data =  Size::all();
 
+            $data = BlogCategory::all();
 
-            return $this->create_response('All sizes', $data, 200);
+            return $this->create_response('All categories', $data, 200);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
         }
     }
 
-    public function store(SizeRequest $request)
 
+
+    public function store(BlogCategoryRequest $request)
     {
         $this->checkRole(['admin']);
         try {
             $valid = $request->validated();
 
-            $data = Size::create($valid);
-            return $this->create_response('Added size', $data, 201);
+            $data = BlogCategory::create($valid);
+            return $this->create_response('Added category', $data, 201);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
@@ -43,29 +44,31 @@ class SizeController extends Controller
     }
 
 
-    public function update(SizeRequest $request, Size $size)
-
+    public function update(BlogCategoryRequest $request, BlogCategory $blog_category)
     {
         $this->checkRole(['admin']);
+
         try {
             $valid = $request->validated();
-            $size->update($valid);
-            $data = $size;
-            return $this->create_response('Updated size', $data, 202);
+
+            $blog_category->update($valid);
+            $data = $blog_category;
+            return $this->create_response('Updated category', $data, 202);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
         }
     }
-    public function destroy(Size $size)
+
+    public function destroy(BlogCategory $blog_category)
 
 
     {
         $this->checkRole(['admin']);
         try {
-            $data = $size;
-            $size->delete();
-            return $this->create_response('Deleted size', $data, 203);
+            $data = $blog_category;
+            $blog_category->delete();
+            return $this->create_response('Deleted category', $data, 203);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);

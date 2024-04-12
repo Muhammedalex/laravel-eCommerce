@@ -28,11 +28,11 @@ class StorePhotoProductRequest extends FormRequest
                 'image'
             ],
             'colors' => 'required',
-            'colors.*' => 'required',
+            'colors.*' => 'requiredexists:colors,color',
             'sizes' => 'required',
-            'sizes.*' => 'required',
+            'sizes.*' => 'required|exists:sizes,size',
             'tags' => 'required',
-            'tags.*' => 'required',
+            'tags.*' => 'required|exists:tags,tag',
         ];
         //|exists:sizes,size
     }

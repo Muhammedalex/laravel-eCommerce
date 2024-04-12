@@ -22,7 +22,7 @@ class BrandController extends Controller
             $data = Brand::all();
 
 
-            return $this->create_response('All brands', $data, 201);
+            return $this->create_response('All brands', $data, 200);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
@@ -50,8 +50,9 @@ class BrandController extends Controller
         $this->checkRole(['admin']);
         try {
             $valid = $request->validated();
-            $data = $brand->update($valid);
-            return $this->create_response('Updated brand', $data, 201);
+            $brand->update($valid);
+            $data = $brand;
+            return $this->create_response('Updated brand', $data, 202);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
@@ -62,8 +63,9 @@ class BrandController extends Controller
     {
         $this->checkRole(['admin']);
         try {
-            $data = $brand->delete();
-            return $this->create_response('Deleted brand', $data, 201);
+            $data = $brand;
+            $brand->delete();
+            return $this->create_response('Deleted brand', $data, 203);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);

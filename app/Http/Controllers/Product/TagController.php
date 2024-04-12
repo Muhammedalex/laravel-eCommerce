@@ -21,7 +21,7 @@ class TagController extends Controller
             $data = Tag::all();
 
 
-            return $this->create_response('All Tags', $data, 201);
+            return $this->create_response('All Tags', $data, 200);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
@@ -48,8 +48,9 @@ class TagController extends Controller
         $this->checkRole(['admin']);
         try {
             $valid = $request->validated();
-            $data = $tag->update($valid);
-            return $this->create_response('Updated tag', $data, 201);
+            $tag->update($valid);
+            $data = $tag;
+            return $this->create_response('Updated tag', $data, 202);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
@@ -61,8 +62,9 @@ class TagController extends Controller
     {
         $this->checkRole(['admin']);
         try {
-            $data =  $tag->delete();
-            return $this->create_response('Deleted tag', $data, 201);
+            $data = $tag;
+            $tag->delete();
+            return $this->create_response('Deleted tag', $data, 203);
         } catch (\Exception $e) {
 
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
