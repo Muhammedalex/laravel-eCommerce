@@ -124,8 +124,16 @@ class OrderController extends Controller
 
     public function archived()
     {
+        $this->checkRole(['admin']);
 
-        $orders = Order::onlyTrashed()->get();
-        return $orders;
+        try {
+
+            $data = Order::onlyTrashed()->get();
+
+            return $this->create_response('deleted orders', $data, 200);
+        } catch (\Exception $e) {
+
+            return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
+        }
     }
 }
