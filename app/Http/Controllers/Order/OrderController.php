@@ -97,6 +97,7 @@ class OrderController extends Controller
 
     public function update(UpdateOrderRequest $request, Order $order)
     {
+        $this->checkRoleAndUser(['admin'], $order->user_id);
         try {
             $valid = $request->validated();
             $order->update($valid);
