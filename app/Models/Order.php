@@ -13,9 +13,27 @@ class Order extends Model
         'user_id',
         'address_id',
         'coupon_id',
-        'phone_id',
+
         'payment',
         'status',
         'total_price'
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function address()
+    {
+
+        return $this->belongsTo(Address::class);
+    }
+    public function coupon()
+    {
+
+        return $this->belongsTo(Coupon::class);
+    }
+    public function order_details()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
 }

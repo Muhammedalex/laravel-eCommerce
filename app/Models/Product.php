@@ -53,4 +53,8 @@ class Product extends Model
     {
         return $this->hasMany(Rate::class);
     }
+    public function order_details()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
 }

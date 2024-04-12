@@ -61,4 +61,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(BlogLike::class);
     }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

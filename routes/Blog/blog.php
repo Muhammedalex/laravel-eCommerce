@@ -15,4 +15,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
 Route::apiResource('blogs', BlogController::class)->except('update');
-Route::post('blogs/{blog}',[BlogController::class,'update']);
+Route::post('blogs/{blog}', [BlogController::class, 'update']);
