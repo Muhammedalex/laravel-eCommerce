@@ -52,7 +52,7 @@ class BlogController extends Controller
     }
     public function destroy(Blog $blog)
     {
-        // $this->checkRole(['admin']);
+        $this->checkRole(['admin']);
         try {
             $data = $blog;
             $blog->delete();
@@ -64,7 +64,7 @@ class BlogController extends Controller
     }
     public function store(StoreBlogRequest $request)
     {
-        // $this->checkRole(['admin']);
+        $this->checkRole(['admin']);
         try {
             $valid = $request->validated();
 
@@ -85,25 +85,7 @@ class BlogController extends Controller
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
         }
     }
-    public function update(UpdateBlogRequest $request, Blog $blog)
+    public function update()
     {
-        // $this->checkRole(['admin']);
-        try {
-            $valid = $request->validated();
-            if ($request->hasFile('photo')) {
-
-                $blog->photo ? Storage::disk('userphotos')->delete($blog->photo) : '';
-                $fileName = uniqid() . '.' . $request->file('photo')->extension();
-                $photoPath = $request->file('photo')->storeAs('userphotos', $fileName);
-                $blog->photo = $fileName;
-                // $blog->save();
-
-            }
-            $data = $blog->update($valid);
-            return $this->create_response('Updated blog', $data, 202);
-        } catch (\Exception $e) {
-
-            return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
-        }
     }
 }
