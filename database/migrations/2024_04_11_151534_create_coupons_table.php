@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->date('expire');
-            $table->float('discount');
+            $table->decimal('discount',8,2);
+            $table->boolean('percent')->default(0);
+            $table->boolean('valid')->default(1);
             $table->timestamps();
         });
     }

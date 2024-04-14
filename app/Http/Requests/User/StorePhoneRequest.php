@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests\Order;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreOrderRequest extends FormRequest
+class StorePhoneRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,9 +22,7 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'address_id' => 'required|exists:addresses,id',
-            'coupon_id' => 'sometimes|exists:coupons,id',
-            'payment' => 'required|string',
+            'phone'=>'required'
         ];
     }
 }

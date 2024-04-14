@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('role')->default('user');
-            $table->string('photo')->nullable();
             $table->string('email')->unique();
             $table->boolean('isActive')->default(false);
             $table->boolean('block')->default(false);

@@ -104,7 +104,6 @@ class OrderController extends Controller
             $data = $order;
             return $this->create_response('Updated order', $data, 202);
         } catch (\Exception $e) {
-
             return $this->error_response('Something Went Wrong', $e->getMessage(), 500);
         }
     }
