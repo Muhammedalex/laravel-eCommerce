@@ -14,7 +14,7 @@ class Order extends Model
         'user_id',
         'address_id',
         'coupon_id',
-
+        'phone_id',
         'payment',
         'status',
         'total_price'

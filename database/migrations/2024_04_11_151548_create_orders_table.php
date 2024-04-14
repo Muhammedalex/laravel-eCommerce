@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignIdFor(Address::class)->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignIdFor(Coupon::class)->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
-            // $table->foreignIdFor(Phone::class)->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignIdFor(Phone::class)->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('payment');
             $table->string('status')->default('pending');
             $table->float('total_price')->nullable();

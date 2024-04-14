@@ -22,7 +22,6 @@ class CouponController extends Controller
 
             Coupon::where('expire', '<', $currentTime)
                 ->update(['valid' => false]);
-
             $data = Coupon::where('valid', true)->get();
 
 

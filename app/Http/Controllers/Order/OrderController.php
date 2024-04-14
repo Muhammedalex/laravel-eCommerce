@@ -79,7 +79,7 @@ class OrderController extends Controller
                     if ($expirationDate->isFuture()) {
                         $data->total_price = $total - $coupon->discount;
                         $data->save();
-                        return $data;
+                        return $this->create_response('added order with coupon', $data, 201);
                     }
                 }
                 $data->total_price = $total;

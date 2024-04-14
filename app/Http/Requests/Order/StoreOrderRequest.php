@@ -24,6 +24,7 @@ class StoreOrderRequest extends FormRequest
         return [
             'address_id' => 'required|exists:addresses,id',
             'coupon_id' => 'sometimes|exists:coupons,id',
+            'phone_id'=>'required|exists:phones,id',
             'payment' => 'required|string',
         ];
     }

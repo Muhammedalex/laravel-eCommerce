@@ -22,11 +22,6 @@ class UpdateOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'sometimes|exists:users,id',
-            'address_id' => 'sometimes|exists:addresses,id',
-            'coupon_id' => 'sometimes|exists:coupons,id',
-
-            'payment' => 'sometimes|string',
             'status' => 'sometimes|string',
         ];
     }

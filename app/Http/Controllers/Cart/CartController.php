@@ -35,7 +35,7 @@ class CartController extends Controller
 
     public function store(StoreCartRequest $request)
 {
-    $this->checkRole(['admin']);
+    $this->checkRole(['user']);
     try {
         $user = Auth::user();
         $product = Product::find($request->product_id);

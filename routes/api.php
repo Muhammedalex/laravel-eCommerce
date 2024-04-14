@@ -10,3 +10,4 @@ require_once __DIR__ . '/Api/cart.php';
 require_once __DIR__ . '/Product/product.php';
 require_once __DIR__ . '/Blog/blog.php';
 require_once __DIR__ . '/Order/order.php';
+require_once __DIR__ . '/api/admin.php';
